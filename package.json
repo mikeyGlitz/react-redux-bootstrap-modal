@@ -1,0 +1,53 @@
+{
+  "name": "react-redux-bootstrap-modal",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "esnext": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "docs": "esdoc -c .config/esdoc.json",
+    "build": "babel src --out-dir lib",
+    "lint": "eslint .",
+    "clean": "rimraf lib"
+  },
+  "jest": {
+    "transform": {
+      "\\.jsx?$": "babel-jest"
+    }
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^20.0.3",
+    "babel-preset-airbnb": "^2.4.0",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^2.9.1",
+    "esdoc-jsx-plugin": "^1.0.0",
+    "esdoc-react-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-react": "7.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^20.0.4",
+    "react-test-renderer": "^15.6.1",
+    "redux-mock-store": "^1.2.3",
+    "rimraf": "^2.6.1",
+    "typescript": "^2.4.2",
+    "typescript-definition-tester": "^0.0.5"
+  },
+  "peerDependencies": {
+    "bootstrap": "^3.3.7"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-modal": "^1.5.2"
+  }
+}

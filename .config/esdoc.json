@@ -1,0 +1,26 @@
+{
+  "source": "./src",
+  "includes": [
+    "**/*.jsx",
+    "**/*.js"
+  ],
+  "output": "./docs",
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin",
+      "test": {
+        "source": "./__tests__",
+        "includes": [
+          "**/*.jsx",
+          "**/*.js"
+        ],
+        "coverage": { "enable": true },
+        "lint": { "enable": true },
+        "undocumentIdentifier": { "enable": true },
+        "unexportIdentifier": { "enable": true }
+      }
+    },
+    { "name": "esdoc-jsx-plugin" },
+    { "name": "esdoc-react-plugin" }
+  ]
+}
