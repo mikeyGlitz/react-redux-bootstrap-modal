@@ -24,7 +24,7 @@ describe('WrappedModal tests', () => {
     );
 
     Container.propTypes = {
-      showDialog: PropTypes.func.isRequired
+      showDialog: PropTypes.func.isRequired,
     };
 
     const ConnectedContainer = connect(null, dispatch => ({

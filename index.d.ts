@@ -131,7 +131,7 @@ interface IWrapperProps {
    * 
    * @memberof IWrapperProps
    */
-  resolve: (state: any, props: any) => any;
+  resolve?: (state: any, props: any) => any;
 }
 
 /**
@@ -141,4 +141,4 @@ interface IWrapperProps {
  * @param {IWrapperProps} props React props
  * @returns {React.ComponentType<any>} Wrapped modal instance
  */
-export function ModalWrapper(props: IWrapperProps): React.ComponentType<any>;
+export const ModalWrapper: (props: IWrapperProps) => React.Component<IWrapperProps>;
