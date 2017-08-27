@@ -10,7 +10,8 @@
     "docs": "esdoc -c .config/esdoc.json",
     "build": "babel src --out-dir lib",
     "lint": "eslint .",
-    "clean": "rimraf lib"
+    "clean": "rimraf lib",
+    "prepublish": "npm run lint && npm test && npm run clean && npm run build"
   },
   "jest": {
     "transform": {
