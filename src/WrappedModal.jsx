@@ -28,11 +28,12 @@ const InnerModal = ({ handleHide, title, show, component: Component, ...props })
 InnerModal.propTypes = {
   handleHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
-  component: PropTypes.elem
+  component: PropTypes.element.isRequired,
+  title: PropTypes.string,
 };
 
 InnerModal.defaultProps = {
-  component: <div />
+  title: '',
 };
 
 const PropertyInjector = component => props => InnerModal({ component, ...props });
@@ -50,7 +51,7 @@ const PropertyInjector = component => props => InnerModal({ component, ...props 
  * @return {React.ComponentClass} A react component which
  * wraps the modal dialog
  */
-const ModalWrapper = ({component, ...props}) => {
+const ModalWrapper = ({ component, ...props }) => {
   const ModalWithProps = PropertyInjector(component);
   const WrappedModal = connectModal(props)(ModalWithProps);
 
@@ -60,12 +61,13 @@ const ModalWrapper = ({component, ...props}) => {
 ModalWrapper.propTypes = {
   name: PropTypes.string.isRequired,
   resolve: PropTypes.func,
-  destroyOnHide: PropTypes.bool
+  destroyOnHide: PropTypes.bool,
+  component: PropTypes.element.isRequired,
 };
 
 ModalWrapper.defaultProps = {
   destroyOnHide: false,
-  resolve: () => null
-}
+  resolve: () => null,
+};
 
 export default ModalWrapper;
