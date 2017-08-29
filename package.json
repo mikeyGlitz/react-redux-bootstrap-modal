@@ -5,6 +5,11 @@
   "main": "./lib/index.js",
   "esnext": "./src/index.js",
   "types": "./index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "index.d.ts"
+  ],
   "scripts": {
     "test": "jest",
     "docs": "esdoc -c .config/esdoc.json",
