@@ -18,6 +18,13 @@
     "clean": "rimraf lib",
     "prepublish": "npm run lint && npm test && npm run clean && npm run build"
   },
+  "keywords": [
+    "react",
+    "redux",
+    "bootstrap",
+    "modal"
+  ],
+  "author": "Michael Glitzos <michael.glitzos@gmail.com>",
   "jest": {
     "transform": {
       "\\.jsx?$": "babel-jest"
