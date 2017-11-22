@@ -19,7 +19,10 @@ describe('WrappedModal tests', () => {
     const Container = ({ showDialog }) => (
       <div>
         <button id="modalButton" onClick={showDialog}>Click</button>
-        <ModalWrapper name="my-modal" component={ModalBody} />
+        <ModalWrapper
+          name="my-modal"
+          component={ModalBody}
+        />
       </div>
     );
 

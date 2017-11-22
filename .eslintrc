@@ -5,7 +5,6 @@
   },
   "extends": "airbnb",
   "rules": {
-    "linebreak-style": 0,
-    "no-comma-dangle": 0
+    "linebreak-style": 0
   }
 }

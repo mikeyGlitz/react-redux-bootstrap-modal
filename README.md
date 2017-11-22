@@ -49,6 +49,16 @@ a modal using `react-bootstrap` as the modal component.
 * `component` - A React component which will be placed inside the
 modal body
 
+#### Optional properties which are used to wrap library APIS
+* `connectOptions` - Options which come from the `connectModal` in
+the [redux-modal](https://github.com/yesmeck/redux-modal/blob/master/docs/api.md)
+library
+* `modalOptions` - These map to properties for the `react-bootstrap` 
+[Modal](https://react-bootstrap.github.io/components.html#modals) component
+  * `close` - boolean - whether to show the close button on the modal or not
+  * `backdrop` - Should modals have a backdrop?
+  * `bsSize` - The size of the modal (small or large)
+
 ## License
 This project uses the MIT License
 

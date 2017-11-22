@@ -9,6 +9,5 @@ describe('ambient definition test', () => {
         jsx: 'react',
       },
       () => done(),
-    ),
-  );
+    ));
 });

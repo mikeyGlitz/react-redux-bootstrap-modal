@@ -114,6 +114,22 @@ interface IModalOptions {
   bsSize?: 'lg' | 'large' | 'sm' | 'small';
 }
 
+interface IReduxConfig {
+  /**
+   * Flag to indicate whether the modal will be destroyed on hide
+   * 
+   * @type {boolean}
+   * @memberof IWrapperProps
+   */
+  destroyOnHide?: boolean;
+  /**
+   * Function to resolve before displaying the modal
+   * 
+   * @memberof IWrapperProps
+   */
+  resolve?: (state: any, props: any) => any;
+}
+
 /**
  * Redux reducer
  * 
@@ -144,25 +160,16 @@ interface IWrapperProps {
    */
   title?: string;
   /**
+   * Redux options to pass into `connectModal
+   */
+  connectConfig?: IReduxConfig;
+  /**
    * Component to wrap inside the modal
    * 
    * @type {React.ComponentType}
    * @memberof IWrapperProps
    */
   component: React.ComponentType<any>;
-  /**
-   * Flag to indicate whether the modal will be destroyed on hide
-   * 
-   * @type {boolean}
-   * @memberof IWrapperProps
-   */
-  destroyOnHide?: boolean;
-  /**
-   * Function to resolve before displaying the modal
-   * 
-   * @memberof IWrapperProps
-   */
-  resolve?: (state: any, props: any) => any;
   /**
    * A set of options to pass down to the modal component
    */

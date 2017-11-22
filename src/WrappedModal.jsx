@@ -18,10 +18,12 @@ import { connectModal } from 'redux-modal';
 const InnerModal = ({
   title,
   show,
-  close,
   component: Component,
-  backdrop,
-  bsSize,
+  options: {
+    close,
+    backdrop,
+    bsSize,
+  },
   ...props
 }) => (
   <Modal
@@ -42,21 +44,25 @@ const InnerModal = ({
 InnerModal.propTypes = {
   handleHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
-  close: PropTypes.bool,
   component: PropTypes.element.isRequired,
   title: PropTypes.string,
-  backdrop: PropTypes.oneOfType([
-    PropTypes.oneOf(['static']),
-    PropTypes.bool,
-  ]),
-  bsSize: PropTypes.oneOf(['lg', 'sm', 'small', 'large']),
+  options: PropTypes.shape({
+    close: PropTypes.bool,
+    backdrop: PropTypes.oneOfType([
+      PropTypes.oneOf(['static']),
+      PropTypes.bool,
+    ]),
+    bsSize: PropTypes.oneOf(['lg', 'sm', 'small', 'large']),
+  }),
 };
 
 InnerModal.defaultProps = {
   title: '',
-  close: true,
-  backdrop: null,
-  bsSize: null,
+  options: {
+    close: true,
+    backdrop: null,
+    bsSize: null,
+  },
 };
 
 /**
@@ -65,14 +71,14 @@ InnerModal.defaultProps = {
  * @return {function} A function which proxies properties from
  * `connectModal` into the connected modal
  */
-const PropertyInjector = properties =>
+const PropertyInjector = ({ options, ...properties }) =>
   /**
    * Proxies properties from `redux-modal` into the connected modal
    * @param {*} props The properties to be passed into `InnerModal`
    * from `redux-modal`
    * @returns {*} A react element which will be wrapped in `connectModal`
    */
-  props => InnerModal({ ...properties, ...props });
+  props => InnerModal({ options, ...properties, ...props });
 
 /**
  * A wrapper component for the modal dialog
@@ -89,24 +95,25 @@ const PropertyInjector = properties =>
  * @return {React.ComponentClass} A react component which
  * wraps the modal dialog
  */
-const ModalWrapper = ({ component, title, options, ...props }) => {
-  const delegateOptions = { component, title, ...options };
-  const ModalWithProps = PropertyInjector(component, delegateOptions);
-  const WrappedModal = connectModal({ ...props })(ModalWithProps);
+const ModalWrapper = ({ component, name, modalOptions, connectConfig, ...props }) => {
+  const delegateOptions = { options: modalOptions, component, ...props };
+  const ModalWithProps = PropertyInjector(delegateOptions);
+  const WrappedModal = connectModal({ name, ...connectConfig })(ModalWithProps);
 
   return <WrappedModal />;
 };
 
 ModalWrapper.propTypes = {
   name: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  resolve: PropTypes.func,
-  destroyOnHide: PropTypes.bool,
+  connectConfig: PropTypes.shape({
+    resolve: PropTypes.func,
+    destroyOnHide: PropTypes.bool,
+  }).isRequired,
   component: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,
   ]).isRequired,
-  options: PropTypes.shape({
+  modalOptions: PropTypes.shape({
     close: PropTypes.bool,
     backdrop: PropTypes.oneOfType([
       PropTypes.oneOf(['static']),
@@ -117,10 +124,11 @@ ModalWrapper.propTypes = {
 };
 
 ModalWrapper.defaultProps = {
-  destroyOnHide: false,
-  resolve: () => null,
-  title: '',
-  options: {
+  connectConfig: {
+    destroyOnHide: false,
+    resolve: () => null,
+  },
+  modalOptions: {
     close: true,
     backdrop: null,
     bsSize: null,
