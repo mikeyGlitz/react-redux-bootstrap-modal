@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "lts/*"
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    recipients:
+      - michael.glitzos@gmail.com
+
+before_script:
+  - export CI=false
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: npm publish
+  on:
+    branch: ["master"]
