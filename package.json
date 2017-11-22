@@ -1,6 +1,6 @@
 {
   "name": "react-redux-bootstrap-modal",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "main": "./lib/index.js",
   "esnext": "./src/index.js",
