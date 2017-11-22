@@ -15,25 +15,48 @@ import { connectModal } from 'redux-modal';
  * @return {React.ComponentClass} React component which contains
  * the modal and the wrapped component
  */
-const InnerModal = ({ handleHide, title, show, component: Component, ...props }) => (
-  <Modal show={show} onHide={handleHide}>
-    <Modal.Header>
+const InnerModal = ({
+  title,
+  show,
+  close,
+  component: Component,
+  backdrop,
+  bsSize,
+  ...props
+}) => (
+  <Modal
+    backdrop={backdrop}
+    bsSize={bsSize}
+    show={show}
+    onHide={props.handleHide}
+  >
+    <Modal.Header closeButton={close}>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
     <Modal.Body>
       <Component {...props} />
     </Modal.Body>
-  </Modal>);
+  </Modal>
+);
 
 InnerModal.propTypes = {
   handleHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
+  close: PropTypes.bool,
   component: PropTypes.element.isRequired,
   title: PropTypes.string,
+  backdrop: PropTypes.oneOfType([
+    PropTypes.oneOf(['static']),
+    PropTypes.bool,
+  ]),
+  bsSize: PropTypes.oneOf(['lg', 'sm', 'small', 'large']),
 };
 
 InnerModal.defaultProps = {
   title: '',
+  close: true,
+  backdrop: null,
+  bsSize: null,
 };
 
 const PropertyInjector = component => props => InnerModal({ component, ...props });
@@ -43,31 +66,56 @@ const PropertyInjector = component => props => InnerModal({ component, ...props 
  * This component connects the modal dialog to the redux state
  * @param {any} props React props
  * * `component` - The component to be wrapped by the modal
+ * * `title` - A title string to pass down to the modal
  * * `name` - The name of the dialog. This field translates to field under the
  * `modal` state
  * * `destroyOnHide` - flag to indicate whether the component gets destroyed
  * when the modal closes or not
+ * * `options` A set of options to configure the modal
  * * `resolve` - a resolver function to resolve before the dialog is displayed
  * @return {React.ComponentClass} A react component which
  * wraps the modal dialog
  */
-const ModalWrapper = ({ component, ...props }) => {
-  const ModalWithProps = PropertyInjector(component);
-  const WrappedModal = connectModal(props)(ModalWithProps);
+const ModalWrapper = ({ component, title, options, ...props }) => {
+  const delegateOptions = Object.keys(options).reduce((acc, curr) => {
+    /* eslint-disable no-param-reassign */
+    if (!acc) acc = {};
+    /* eslint-enable */
+    if (options[curr] !== null) acc[curr] = options[curr];
+    return acc;
+  }, {});
 
-  return <WrappedModal />
+  const ModalWithProps = PropertyInjector(component);
+  const WrappedModal = connectModal({ title, delegateOptions, ...props })(ModalWithProps);
+
+  return <WrappedModal />;
 };
 
 ModalWrapper.propTypes = {
   name: PropTypes.string.isRequired,
+  title: PropTypes.string,
   resolve: PropTypes.func,
   destroyOnHide: PropTypes.bool,
   component: PropTypes.element.isRequired,
+  options: PropTypes.shape({
+    close: PropTypes.bool,
+    backdrop: PropTypes.oneOfType([
+      PropTypes.oneOf(['static']),
+      PropTypes.bool,
+    ]),
+    bsSize: PropTypes.oneOf(['lg', 'sm', 'small', 'large']),
+  }),
 };
 
 ModalWrapper.defaultProps = {
   destroyOnHide: false,
   resolve: () => null,
+  title: '',
+  options: {
+    close: true,
+    backdrop: null,
+    bsSize: null,
+  },
 };
 
 export default ModalWrapper;

@@ -90,6 +90,31 @@ export function hide (modal: string): IAction;
 export function destroy (modal: string): IAction;
 
 /**
+ * Interface for options to pass to the modal component
+ */
+interface IModalOptions {
+  /**
+   * An indicator whether to show the close button or not (default to true)
+   * @type {boolean}
+   * @memberof IModalOptions
+   */
+  close?: boolean;
+  /**
+   * An optional parameter which indicates whether the modal component should have
+   * a backdrop or not
+   * @type {'static' | boolean}
+   * @memberof IModalOptions
+   */
+  backdrop?: 'static' | boolean;
+  /**
+   * An optional parameter which indicates what size the modal component should be
+   * @type {'lg' | 'large' | 'sm' | 'small'}
+   * @memberof IModalOptions
+   */
+  bsSize?: 'lg' | 'large' | 'sm' | 'small';
+}
+
+/**
  * Redux reducer
  * 
  * @export
@@ -113,6 +138,12 @@ interface IWrapperProps {
    */
   name: string;
   /**
+   * An optional string to show for the title
+   * @type {string?}
+   * @memberof IWrapperProps
+   */
+  title?: string;
+  /**
    * Component to wrap inside the modal
    * 
    * @type {React.ComponentType}
@@ -132,6 +163,10 @@ interface IWrapperProps {
    * @memberof IWrapperProps
    */
   resolve?: (state: any, props: any) => any;
+  /**
+   * A set of options to pass down to the modal component
+   */
+  options?: IModalOptions;
 }
 
 /**

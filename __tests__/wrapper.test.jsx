@@ -18,7 +18,7 @@ describe('WrappedModal tests', () => {
     const ModalBody = <h1>Hello From Modal!</h1>;
     const Container = ({ showDialog }) => (
       <div>
-        <button onClick={showDialog}>Click</button>
+        <button id="modalButton" onClick={showDialog}>Click</button>
         <ModalWrapper name="my-modal" component={ModalBody} />
       </div>
     );
@@ -28,13 +28,13 @@ describe('WrappedModal tests', () => {
     };
 
     const ConnectedContainer = connect(null, dispatch => ({
-      showDialog: () => dispatch(show('my-modal', { title: 'modal-title' }))
+      showDialog: () => dispatch(show('my-modal', { title: 'modal-title' })),
     }))(Container);
 
     const wrapper = mount(<Provider store={store}><ConnectedContainer /></Provider>);
 
     // Simulate button click
-    wrapper.find('button').simulate('click');
+    wrapper.find('#modalButton').simulate('click');
     const actions = store.getActions().map(action => action.type);
     expect(actions.length).toEqual(1);
     expect(actions[0]).toEqual('@redux-modal/SHOW');
