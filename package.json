@@ -31,6 +31,7 @@
   },
   "jest": {
     "setupFiles": [
+      "<rootDir>/shim.js",
       "<rootDir>/setupTests.js"
     ],
     "transform": {
