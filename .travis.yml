@@ -7,11 +7,15 @@ notifications:
     on_failure: always
     recipients:
       - michael.glitzos@gmail.com
+cache:
+  directories:
+    - node_modules
 
 before_script:
   - export CI=false
 
 deploy:
+  skip_cleanup: true
   provider: npm
   email: michael.glitzos@gmail.com
   api_key: $NPM_TOKEN
