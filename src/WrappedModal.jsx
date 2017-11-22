@@ -59,7 +59,20 @@ InnerModal.defaultProps = {
   bsSize: null,
 };
 
-const PropertyInjector = component => props => InnerModal({ component, ...props });
+/**
+ * A function to proxy properties into the connected modal
+ * @param {*} properties The properties to pass into the modal
+ * @return {function} A function which proxies properties from
+ * `connectModal` into the connected modal
+ */
+const PropertyInjector = properties =>
+  /**
+   * Proxies properties from `redux-modal` into the connected modal
+   * @param {*} props The properties to be passed into `InnerModal`
+   * from `redux-modal`
+   * @returns {*} A react element which will be wrapped in `connectModal`
+   */
+  props => InnerModal({ ...properties, ...props });
 
 /**
  * A wrapper component for the modal dialog
@@ -77,16 +90,9 @@ const PropertyInjector = component => props => InnerModal({ component, ...props 
  * wraps the modal dialog
  */
 const ModalWrapper = ({ component, title, options, ...props }) => {
-  const delegateOptions = Object.keys(options).reduce((acc, curr) => {
-    /* eslint-disable no-param-reassign */
-    if (!acc) acc = {};
-    /* eslint-enable */
-    if (options[curr] !== null) acc[curr] = options[curr];
-    return acc;
-  }, {});
-
-  const ModalWithProps = PropertyInjector(component);
-  const WrappedModal = connectModal({ title, delegateOptions, ...props })(ModalWithProps);
+  const delegateOptions = { component, title, ...options };
+  const ModalWithProps = PropertyInjector(component, delegateOptions);
+  const WrappedModal = connectModal({ ...props })(ModalWithProps);
 
   return <WrappedModal />;
 };
@@ -96,7 +102,10 @@ ModalWrapper.propTypes = {
   title: PropTypes.string,
   resolve: PropTypes.func,
   destroyOnHide: PropTypes.bool,
-  component: PropTypes.element.isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func,
+  ]).isRequired,
   options: PropTypes.shape({
     close: PropTypes.bool,
     backdrop: PropTypes.oneOfType([

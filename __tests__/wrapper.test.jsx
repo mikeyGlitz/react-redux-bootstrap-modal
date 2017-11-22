@@ -28,7 +28,7 @@ describe('WrappedModal tests', () => {
     };
 
     const ConnectedContainer = connect(null, dispatch => ({
-      showDialog: () => dispatch(show('my-modal', { title: 'modal-title' })),
+      showDialog: () => dispatch(show('my-modal')),
     }))(Container);
 
     const wrapper = mount(<Provider store={store}><ConnectedContainer /></Provider>);
